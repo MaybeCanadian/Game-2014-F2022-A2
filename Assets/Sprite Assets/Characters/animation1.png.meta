@@ -1667,7 +1667,7 @@ TextureImporter:
     nameFileIdTable:
       animation1_66: -493523152
       animation1_47: 1813695816
-      Uggore A2: -1169674651
+      animation1_36: 707267485
       animation1_43: 2042974789
       Groog A2: 941776347
       animation1_27: 1498730588
@@ -1699,9 +1699,9 @@ TextureImporter:
       animation1_26: 2021063854
       animation1_39: 1085652941
       animation1_52: -1360207044
-      animation1_59: 226301290
       Groog A3: 1516787878
       animation1_12: 806245831
+      animation1_59: 226301290
       animation1_29: 673776588
       Ripper Joe A2: -1144288909
       animation1_11: -1979059791
@@ -1734,8 +1734,8 @@ TextureImporter:
       Ser Jyorn A3: 617109485
       animation1_46: -978846389
       animation1_67: -708698055
-      animation1_36: 707267485
       Turanous A2: -450500994
+      Uggore A2: -1169674651
       Prometheus A2: 195947061
   spritePackingTag: 
   pSDRemoveMatte: 0

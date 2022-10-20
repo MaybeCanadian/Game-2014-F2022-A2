@@ -48,7 +48,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 16
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -2037,10 +2037,10 @@ TextureImporter:
       Goblin King Sprite Sheet_63: -851226896
       Goblin King Sprite Sheet_62: 759162125
       Goblin King Sprite Sheet_34: -1607297510
-      Goblin King Sprite Sheet_28: -4934680
-      Goblin King Sprite Sheet_37: -1225256542
-      Goblin King Sprite Sheet_49: -694528360
       Goblin King Sprite Sheet_24: 861128311
+      Goblin King Sprite Sheet_28: -4934680
+      Goblin King Sprite Sheet_49: -694528360
+      Goblin King Sprite Sheet_37: -1225256542
       Goblin King Sprite Sheet_67: 148087937
       Goblin King Sprite Sheet_35: -1685400019
       Goblin King Sprite Sheet_2: 2086800375

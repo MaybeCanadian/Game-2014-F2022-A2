@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class RangedTowerBaseClass : TowerBaseClass
 {
-
-    private void Start()
+    private void Update()
     {
-        TowerManagerScript.instance.AddTower(this as TowerBaseClass);
+        AITick();
     }
+
     public override void AITick()
     {
 

@@ -41,6 +41,8 @@ public class TowerBaseClass : MonoBehaviour
     {
         Collider2D[] allEnemies = Physics2D.OverlapCircleAll(transform.position, TowerRange, EnemyLayerMask);
 
+        //Debug.Log("found " + allEnemies.Length + " enemies");
+
         return allEnemies;
     }
 

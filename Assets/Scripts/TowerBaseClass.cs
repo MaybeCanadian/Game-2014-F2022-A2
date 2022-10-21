@@ -14,14 +14,32 @@ using UnityEngine;
  * 10/20/2022
  * ------------------------------------------------------------------
  */
+[System.Serializable]
+public enum TargetingMode
+{
+    CLOSE,
+    FAR,
+    MOSTMAXHEALTH,
+    LEASTMAXHEALTH,
+    MOSTCURRENTHEALTH,
+    LEASTCURRENTHEALTH
+}
+
+
 public class TowerBaseClass : MonoBehaviour
 {
     [Header("Tower Statistics")]
     public float TowerHealth;
     public float TowerRange;
+
+    [Header("Enemy Layer")]
+    public LayerMask EnemyLayerMask;
+
+
+    //functions to be used by the clas ai
     public Collider2D[] DetectEnemies()
     {
-        Collider2D[] allEnemies = Physics2D.OverlapCircleAll(transform.position, TowerRange);
+        Collider2D[] allEnemies = Physics2D.OverlapCircleAll(transform.position, TowerRange, EnemyLayerMask);
 
         return allEnemies;
     }
@@ -73,13 +91,14 @@ public class TowerBaseClass : MonoBehaviour
 
         foreach (Collider2D enemy in DetectEnemies())
         {
+            EnemyBaseClass tempEnemyClass = enemy.GetComponent<EnemyBaseClass>();
 
-            //if ( > mostHealth)
-            //{
-            //    Highest = enemy.gameObject;
-            //    mostHealth = (transform.position - enemy.transform.position).magnitude;
-            //    continue;
-            //}
+            if (tempEnemyClass.MaxHealth > mostHealth)
+            {
+                Highest = enemy.gameObject;
+                mostHealth = tempEnemyClass.MaxHealth;
+                continue;
+            }
         }
 
         return Highest;
@@ -93,14 +112,60 @@ public class TowerBaseClass : MonoBehaviour
         foreach (Collider2D enemy in DetectEnemies())
         {
 
-            //if ((transform.position - enemy.transform.position).magnitude > mostHealth)
-            //{
-            //    Highest = enemy.gameObject;
-            //    mostHealth = (transform.position - enemy.transform.position).magnitude;
-            //    continue;
-            //}
+            EnemyBaseClass tempEnemyClass = enemy.GetComponent<EnemyBaseClass>();
+
+            if (tempEnemyClass.MaxHealth < leastHealth)
+            {
+                Lowest = enemy.gameObject;
+                leastHealth = tempEnemyClass.MaxHealth;
+                continue;
+            }
         }
 
         return Lowest;
     }
+
+    public GameObject GetMaxCurrentHealth()
+    {
+        GameObject Highest = null;
+        float currentHighest = -1.0f;
+
+        foreach (Collider2D enemy in DetectEnemies())
+        {
+
+            EnemyBaseClass tempEnemyClass = enemy.GetComponent<EnemyBaseClass>();
+
+            if (tempEnemyClass.CurrentHealth > currentHighest)
+            {
+                Highest = enemy.gameObject;
+                currentHighest = tempEnemyClass.MaxHealth;
+                continue;
+            }
+        }
+
+        return Highest;
+    }
+
+    public GameObject GetLowestCurrentHealth()
+    {
+        GameObject Lowest = null;
+        float currentLowest = Mathf.Infinity;
+
+        foreach (Collider2D enemy in DetectEnemies())
+        {
+
+            EnemyBaseClass tempEnemyClass = enemy.GetComponent<EnemyBaseClass>();
+
+            if (tempEnemyClass.CurrentHealth < currentLowest)
+            {
+                Lowest = enemy.gameObject;
+                currentLowest = tempEnemyClass.MaxHealth;
+                continue;
+            }
+        }
+
+        return Lowest;
+    }
+
+    public virtual void AITick() { }
 }

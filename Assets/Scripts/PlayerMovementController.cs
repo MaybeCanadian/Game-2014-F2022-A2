@@ -11,10 +11,10 @@ using UnityEngine;
  * - 10/16/2022 - file created
  * - 10/16/2022 - Based variables and references set up
  * - 10/19/2022 - Set up distinction between mobile and computer inputs
- * 
+ * - 10/20/2022 - removed the debug output
  * 
  * Date Last Modified
- * - 10/19/2022
+ * - 10/20/2022
  * 
  * ------------------------------------------------------------------------------------------------------------------------------------
  */
@@ -63,7 +63,7 @@ public class PlayerMovementController : MonoBehaviour
     private void KeyboardMove()
     {
         Vector3 MoveInput = new Vector3(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"), 0);
-        Debug.Log(MoveInput);
+        //Debug.Log(MoveInput);
         Vector3 origionalPosition = transform.position;
 
         Vector3 moveToPosition = origionalPosition + MoveInput.normalized * PlayerMoveSpeed * Time.fixedDeltaTime;

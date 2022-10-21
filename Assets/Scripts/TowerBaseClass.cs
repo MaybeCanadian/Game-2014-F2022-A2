@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using Unity.VisualScripting;
 using UnityEngine;
 /*-------------------------------------------------------------------
@@ -9,9 +10,10 @@ using UnityEngine;
  * 
  * Version History -
  * 10/20/2022 - Created file
+ * 10/21/2022 - Updated with some headers and Tooltips
  * 
  * Latest Revision -
- * 10/20/2022
+ * 10/21/2022
  * ------------------------------------------------------------------
  */
 [System.Serializable]
@@ -29,15 +31,36 @@ public enum TargetingMode
 public class TowerBaseClass : MonoBehaviour
 {
     [Header("Tower Statistics")]
-    public float TowerHealth;
-    public float TowerRange;
+    [Tooltip("The Health of the Tower"), SerializeField]
+    protected float TowerHealth;
+    [Header("How far the Tower Detects Enemies"), SerializeField]
+    protected float TowerRange;
+    [Range(0.01f, 200.0f), Tooltip("Attacks per seccond"), SerializeField]
+    protected float AttackSpeed;
+    [Tooltip("If the Tower Can Attack"), ReadOnly(true), SerializeField]
+    protected bool AttackCoolDown = false;
+    [Tooltip("If Tower has a target"), ReadOnly(true), SerializeField]
+    protected bool TowerHasTarget = false;
 
     [Header("Enemy Layer")]
     public LayerMask EnemyLayerMask;
 
+    protected GameObject towerTarget;
+
+    private void Start()
+    {
+        AttackCoolDown = false;
+        TowerHasTarget = false;
+        towerTarget = null;
+    }
+
+    protected void ResetAttackCoolDown()
+    {
+        AttackCoolDown = false;
+    }
 
     //functions to be used by the clas ai
-    public Collider2D[] DetectEnemies()
+    protected Collider2D[] DetectEnemies()
     {
         Collider2D[] allEnemies = Physics2D.OverlapCircleAll(transform.position, TowerRange, EnemyLayerMask);
 
@@ -46,7 +69,7 @@ public class TowerBaseClass : MonoBehaviour
         return allEnemies;
     }
 
-    public GameObject GetClosestEnemyInRange()
+    protected GameObject GetClosestEnemyInRange()
     {
         GameObject Close = null;
         float CloseDistance = Mathf.Infinity;
@@ -54,7 +77,7 @@ public class TowerBaseClass : MonoBehaviour
         foreach(Collider2D enemy in DetectEnemies())
         {
             
-            if((transform.position - enemy.transform.position).magnitude < CloseDistance)
+            if(DistanceToTarget(enemy.gameObject) < CloseDistance)
             {
                 Close = enemy.gameObject;
                 CloseDistance = (transform.position - enemy.transform.position).magnitude;
@@ -66,7 +89,7 @@ public class TowerBaseClass : MonoBehaviour
         return Close;
     }
 
-    public GameObject GetFarthustEnemy()
+    protected GameObject GetFarthustEnemy()
     {
         GameObject Far = null;
         float Distance = -1.0f;
@@ -74,7 +97,7 @@ public class TowerBaseClass : MonoBehaviour
         foreach (Collider2D enemy in DetectEnemies())
         {
 
-            if ((transform.position - enemy.transform.position).magnitude > Distance)
+            if (DistanceToTarget(enemy.gameObject) > Distance)
             {
                 Far = enemy.gameObject;
                 Distance = (transform.position - enemy.transform.position).magnitude;
@@ -86,7 +109,7 @@ public class TowerBaseClass : MonoBehaviour
         return Far;
     }
 
-    public GameObject GetHighestMaxHealth()
+    protected GameObject GetHighestMaxHealth()
     {
         GameObject Highest = null;
         float mostHealth = 0.0f;
@@ -106,7 +129,7 @@ public class TowerBaseClass : MonoBehaviour
         return Highest;
     }
 
-    public GameObject GetLowestMaxHealth()
+    protected GameObject GetLowestMaxHealth()
     {
         GameObject Lowest = null;
         float leastHealth = Mathf.Infinity;
@@ -127,7 +150,7 @@ public class TowerBaseClass : MonoBehaviour
         return Lowest;
     }
 
-    public GameObject GetMaxCurrentHealth()
+    protected GameObject GetMaxCurrentHealth()
     {
         GameObject Highest = null;
         float currentHighest = -1.0f;
@@ -148,7 +171,7 @@ public class TowerBaseClass : MonoBehaviour
         return Highest;
     }
 
-    public GameObject GetLowestCurrentHealth()
+    protected GameObject GetLowestCurrentHealth()
     {
         GameObject Lowest = null;
         float currentLowest = Mathf.Infinity;
@@ -169,5 +192,24 @@ public class TowerBaseClass : MonoBehaviour
         return Lowest;
     }
 
-    public virtual void AITick() { }
+    protected bool IsTargetInRange(GameObject target)
+    {
+        if (!target)
+            return false;
+
+        if(DistanceToTarget(target) > TowerRange)
+        {
+            return false;
+        }
+        return true;
+    }
+
+    protected virtual void AITick() { }
+
+    protected float DistanceToTarget(GameObject target)
+    {
+        float distance = (target.transform.position - transform.position).magnitude;
+
+        return distance;
+    }
 }

@@ -168,7 +168,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: afffe9ea26518344889f649aa3b57e9c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MaxHealth: 0
+  MaxHealth: 20
   CurrentHealth: 0
   CurrentTargetNode: -1
   TargetNodePosition: {x: 0, y: 0, z: 0}

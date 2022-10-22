@@ -9,17 +9,18 @@ using UnityEngine;
  * Version History -
  * 10/20/2022 - Created File and set up basic AI tick using base tower functions
  * 10/21/2022 - Added in some basic atack patterns, for now will output a debug message
+ * 10/22/2022 - Added variables to help control the type of arrow the tower shoots
  * 
  * Latest Revision -
- * 10/21/2022
+ * 10/22/2022
  * -----------------------------
  */
 public class RangedTowerBaseClass : TowerBaseClass
 {
-
-    public GameObject arrowPrefab;
-
-    public float ArrowSpeed = 60.0f;
+    [SerializeField]
+    private float ArrowSpeed = 60.0f;
+    [SerializeField]
+    private int ArrowPierce = 0;
     private void Update()
     {
         AITick();
@@ -29,23 +30,11 @@ public class RangedTowerBaseClass : TowerBaseClass
     {
         base.AITick();
 
-        if (!TowerHasTarget)
-        {
-            towerTarget = this.GetClosestEnemyInRange();
+        towerTarget = this.GetClosestEnemyInRange();
 
-            if (!towerTarget)
-            {
-                return;
-            }
-
-            TowerHasTarget = true;
-        }
-        else
+        if(!towerTarget)
         {
-            if (!IsTargetInRange(towerTarget))
-            {
-                return;
-            }
+            return;
         }
 
         if (AttackCoolDown == false)
@@ -60,10 +49,11 @@ public class RangedTowerBaseClass : TowerBaseClass
     {
         GameObject TempArrow = ProjectileManager.instance.GetBasicArrow();
         TempArrow.transform.position = transform.position;
-        TempArrow.GetComponent<ArrowBehaviorScript>().SetSpeed(ArrowSpeed);
-        TempArrow.GetComponent<ArrowBehaviorScript>().SetVelocity((towerTarget.transform.position - transform.position).normalized);
-
-        Debug.Log("attack " + DistanceToTarget(enemy));
+        ArrowBehaviorScript TempArrowBehavior = TempArrow.GetComponent<ArrowBehaviorScript>();
+        TempArrowBehavior.SetSpeed(ArrowSpeed);
+        TempArrowBehavior.SetVelocity((towerTarget.transform.position - transform.position).normalized);
+        TempArrowBehavior.SetDamage(Damage);
+        TempArrowBehavior.SetPierces(ArrowPierce);
     }
 
 }

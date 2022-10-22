@@ -31,6 +31,16 @@ public class HealthBar : MonoBehaviour
         UpdateBar();
     }
 
+    public void SetMaxHealth(float input, bool resetToMax)
+    {
+        MaxHealth = input;
+
+        if (resetToMax)
+            CurrentHealth = MaxHealth;
+
+        UpdateBar();
+    }
+
     public void TakeDamage(float input)
     {
         CurrentHealth -= input;

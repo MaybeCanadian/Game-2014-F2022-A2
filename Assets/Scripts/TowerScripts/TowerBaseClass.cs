@@ -47,6 +47,9 @@ public class TowerBaseClass : MonoBehaviour
 
     protected GameObject towerTarget;
 
+    [SerializeField, ReadOnly(true)]
+    protected float Damage = 10.0f;
+
     private void Start()
     {
         AttackCoolDown = false;
@@ -63,8 +66,6 @@ public class TowerBaseClass : MonoBehaviour
     protected Collider2D[] DetectEnemies()
     {
         Collider2D[] allEnemies = Physics2D.OverlapCircleAll(transform.position, TowerRange, EnemyLayerMask);
-
-        //Debug.Log("found " + allEnemies.Length + " enemies");
 
         return allEnemies;
     }

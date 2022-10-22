@@ -89,7 +89,30 @@ public class EnemyBaseClass : MonoBehaviour
         healthBar.TakeDamage(value);
         if(CurrentHealth <= 0)
         {
-            Destroy(gameObject);
+            Die();
         }
+    }
+
+    private void Die()
+    {
+        CreateDrop();
+        Destroy(gameObject);
+    }
+
+    private void CreateDrop()
+    {
+        GameObject drop = DropsManagerScript.instance.GetDrop(DropTypes.GoldBag);
+        Vector3 OffsetDirection = (TargetNodePosition - transform.position).normalized;
+        Vector3 OffsetDirectionPerp = new Vector3(OffsetDirection.y, OffsetDirection.x, 0.0f);
+
+        float sign = 0;
+        if (Random.Range(0, 2) == 0)
+            sign = 1;
+        else
+            sign = -1;
+
+        PickUpScript tempPickUp = drop.GetComponent<PickUpScript>();
+        tempPickUp.SetTargtePosition(transform.position + OffsetDirectionPerp * Random.Range(1.0f, 2.0f) * sign + OffsetDirection * Random.Range(-0.5f, 0.5f));
+        drop.transform.position = transform.position;
     }
 }

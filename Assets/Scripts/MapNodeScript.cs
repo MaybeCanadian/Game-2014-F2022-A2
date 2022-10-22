@@ -9,6 +9,7 @@ using UnityEngine;
  * 
  * Version History -
  * 10/21/2022 - created script
+ * 10/21/2022 - added code that adds itself to the nodecontrollerscript
  * 
  * Latest Revision -
  * 10/21/2022
@@ -17,5 +18,18 @@ using UnityEngine;
 
 public class MapNodeScript : MonoBehaviour
 {
+    [Tooltip("Order in path"), SerializeField]
+    private int NodeNumber;
+
+    private void Start()
+    {
+        MapNodeControllerScript.instance.AddNode(this);
+    }
+
+    public int GetNodeNumber()
+    {
+        return NodeNumber;
+    }
+
     
 }

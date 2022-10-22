@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 /*-----------------------------------
@@ -16,15 +17,43 @@ using UnityEngine;
  */
 public class MapNodeControllerScript : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public static MapNodeControllerScript instance;
+
+    [SerializeField]
+    private List<MapNodeScript> AllNodes;
+
+    private void Awake()
     {
-        
+        if(instance != null && instance != this)
+        {
+            Destroy(this);
+        }
+        else
+        {
+            instance = this;
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    public void AddNode(MapNodeScript node)
     {
-        
+        AllNodes.Add(node);
+    } 
+
+    public Vector3 GetNodePosition(int NodeNumber)
+    {
+        foreach(MapNodeScript node in AllNodes)
+        {
+            if(node.GetNodeNumber() == NodeNumber)
+            {
+                return node.transform.position;
+            }
+        }
+
+        return new Vector3(0.0f, 0.0f, 0.0f);
+    }
+
+    public int GetMaxNodes()
+    {
+        return AllNodes.Count;
     }
 }

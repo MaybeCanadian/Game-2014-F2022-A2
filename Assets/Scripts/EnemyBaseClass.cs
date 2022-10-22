@@ -28,7 +28,7 @@ public class EnemyBaseClass : MonoBehaviour
 
     Rigidbody2D rb;
 
-    private void Start()
+    protected void Start()
     {
         CurrentTargetNode = -1;
         rb = GetComponent<Rigidbody2D>();
@@ -49,22 +49,21 @@ public class EnemyBaseClass : MonoBehaviour
         TargetNodePosition = MapNodeControllerScript.instance.GetNodePosition(CurrentTargetNode);
     }
 
-    private void Update()
+    protected void Update()
     {
         AITick();
     }
 
-    private void FixedUpdate()
+    protected void FixedUpdate()
     {
         AIMovementTick();
     }
 
-    public void AITick()
+    protected void AITick()
     {
 
     }
-
-    public void AIMovementTick()
+    protected void AIMovementTick()
     {
         Vector3 movementVector = TargetNodePosition - transform.position;
         movementVector.Normalize();

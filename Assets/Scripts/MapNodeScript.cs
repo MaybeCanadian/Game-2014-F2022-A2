@@ -15,7 +15,6 @@ using UnityEngine;
  * 10/21/2022
  * ------------------------------------------------
  */
-
 public class MapNodeScript : MonoBehaviour
 {
     [Tooltip("Order in path"), SerializeField]

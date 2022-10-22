@@ -14,8 +14,6 @@ using UnityEngine;
  * 10/21/2022
  * -----------------------------
  */
-
-
 public class RangedTowerBaseClass : TowerBaseClass
 {
     private void Update()

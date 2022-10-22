@@ -23,7 +23,7 @@ public enum DropTypes
 
 public class DropsManagerScript : MonoBehaviour
 {
-    Queue<GameObject> DropPools;
+    Queue<GameObject> GoldBagPool;
 
     [SerializeField]
     private int startingGoldNumber = 50;
@@ -34,11 +34,31 @@ public class DropsManagerScript : MonoBehaviour
 
     private void Start()
     {
-        
+        GoldBagPool = new Queue<GameObject>();
+        BuildItemPool(DropTypes.GoldBag);
     }
 
     private void BuildItemPool(DropTypes type)
     {
-        
+        for(int i = 0; i < startingGoldNumber; i++)
+        {
+            CreateDrop(type);
+        }
+
+        remainingGoldDrops = GoldBagPool.Count;
+    }
+
+    private void CreateDrop(DropTypes type)
+    {
+        GameObject TempDrop = DropsFactory.instance.CreateDrop(type);
+        GoldBagPool.Enqueue(TempDrop);
+    }
+
+    public GameObject GetDrop(DropTypes drop)
+    {
+        GameObject tempDrop = GoldBagPool.Dequeue();
+        tempDrop.SetActive(true);
+
+        return tempDrop;    
     }
 }

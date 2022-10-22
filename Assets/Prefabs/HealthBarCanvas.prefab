@@ -85,7 +85,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 0
+  m_PresetInfoIsWorld: 1
 --- !u!114 &1452784101372513876
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -118,6 +118,7 @@ MonoBehaviour:
   MaxHealth: 100
   CurrentHealth: 0
   CurrentPercent: 0
+  HealthSliderCanvas: {fileID: 0}
   healthSlider: {fileID: 173220099638625250}
 --- !u!1 &1857522114671855112
 GameObject:

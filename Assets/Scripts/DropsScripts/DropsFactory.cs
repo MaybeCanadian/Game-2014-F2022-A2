@@ -1,11 +1,23 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+/*-------------------------------------------
+ * DropsFactory.cs - Evan Coffey - 101267129
+ * 
+ * Keeps track of the Drop prefabs and makes them for the manager
+ * 
+ * Version History -
+ * 10/22/2022 - created script and added the createDropFunction
+ * 
+ * Latest Revision -
+ * 10/22/2022
+ * ------------------------------------------
+ */
 
 [System.Serializable]
 public class DropsFactory : MonoBehaviour
 {
-    List<GameObject> DropsPrefabs;
+    public List<GameObject> DropsPrefabs;
 
     public Transform DropsParent;
 

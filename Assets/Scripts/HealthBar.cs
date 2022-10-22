@@ -20,7 +20,7 @@ public class HealthBar : MonoBehaviour
     public float CurrentHealth;
     public float CurrentPercent;
 
-    public GameObject HealthSliderCanvas;
+    public GameObject HealthSliderObject;
 
     public Slider healthSlider;
 
@@ -55,11 +55,11 @@ public class HealthBar : MonoBehaviour
 
         if(CurrentPercent == 1.0f)
         {
-            HealthSliderCanvas.SetActive(false);
+            HealthSliderObject.SetActive(false);
             return;
         }
 
-        HealthSliderCanvas.SetActive(true);
+        HealthSliderObject.SetActive(true);
 
         CurrentPercent = Mathf.Max(CurrentPercent, 0.0f);
         healthSlider.value = CurrentPercent;

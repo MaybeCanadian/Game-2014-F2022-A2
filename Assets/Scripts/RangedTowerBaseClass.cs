@@ -16,6 +16,10 @@ using UnityEngine;
  */
 public class RangedTowerBaseClass : TowerBaseClass
 {
+
+    public GameObject arrowPrefab;
+
+    public float ArrowSpeed = 60.0f;
     private void Update()
     {
         AITick();
@@ -54,6 +58,11 @@ public class RangedTowerBaseClass : TowerBaseClass
 
     protected void Attack(GameObject enemy)
     {
+        GameObject TempArrow = ProjectileManager.instance.GetBasicArrow();
+        TempArrow.transform.position = transform.position;
+        TempArrow.GetComponent<ArrowBehaviorScript>().SetSpeed(ArrowSpeed);
+        TempArrow.GetComponent<ArrowBehaviorScript>().SetVelocity((towerTarget.transform.position - transform.position).normalized);
+
         Debug.Log("attack " + DistanceToTarget(enemy));
     }
 

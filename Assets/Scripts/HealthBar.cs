@@ -20,18 +20,36 @@ public class HealthBar : MonoBehaviour
     public float CurrentHealth;
     public float CurrentPercent;
 
+    public GameObject HealthSliderCanvas;
+
     public Slider healthSlider;
 
     public void Start()
     {
         CurrentHealth = MaxHealth;
-        CurrentPercent = CurrentHealth / MaxHealth;
+
+        UpdateBar();
     }
 
     public void TakeDamage(float input)
     {
         CurrentHealth -= input;
+
+        UpdateBar();
+    }
+
+    private void UpdateBar()
+    {
+
         CurrentPercent = CurrentHealth / MaxHealth;
+
+        if(CurrentPercent == 1.0f)
+        {
+            HealthSliderCanvas.SetActive(false);
+            return;
+        }
+
+        HealthSliderCanvas.SetActive(true);
 
         CurrentPercent = Mathf.Max(CurrentPercent, 0.0f);
         healthSlider.value = CurrentPercent;

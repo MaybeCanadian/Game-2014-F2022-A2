@@ -26,6 +26,8 @@ public class EnemyBaseClass : MonoBehaviour
     public float speed = 10.0f;
     public float Deviation = 0.5f;
 
+    public HealthBar healthBar;
+
     Rigidbody2D rb;
 
     protected void Start()
@@ -76,5 +78,11 @@ public class EnemyBaseClass : MonoBehaviour
         {
             GetNextNodePosition();
         }
+    }
+
+    public void TakeDamage(float value)
+    {
+        CurrentHealth -= value;
+        healthBar.TakeDamage(value);
     }
 }

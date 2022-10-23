@@ -54,6 +54,17 @@ public class PlayerMovementController : MonoBehaviour
 
     private Touch currentMoveTouch;
 
+    [Header("Mobile Input touch values")]
+    [SerializeField, ReadOnly(true)]
+    private bool IsTouching = false;
+    private Vector2 TouchStart;
+    private Vector2 TouchMoveVector;
+    [SerializeField, ReadOnly(true)]
+    private float TouchSpeedScale = 0.0f;
+    [SerializeField]
+    private float MaxSpeedOuter = 100.0f;
+    private float currentMoveSpeed = 0.0f;
+
 
     // Start is called before the first frame update
     void Start()
@@ -95,11 +106,16 @@ public class PlayerMovementController : MonoBehaviour
 
     private void KeyboardMove()
     {
-        Vector3 MoveInput = new Vector3(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"), 0);
-        //Debug.Log(MoveInput);
+
+        currentMoveSpeed = PlayerMoveSpeed;
+        MovePlayer(GetMovementInputKeyBoard());
+    }
+
+    private void MovePlayer(Vector3 moveTarget)
+    {
         Vector3 origionalPosition = transform.position;
 
-        Vector3 moveToPosition = origionalPosition + MoveInput.normalized * PlayerMoveSpeed * Time.fixedDeltaTime;
+        Vector3 moveToPosition = origionalPosition + moveTarget.normalized * currentMoveSpeed * Time.fixedDeltaTime;
 
         moveToPosition = new Vector3(Mathf.Clamp(moveToPosition.x, screenBounds.HorizontalBounds.Min, screenBounds.HorizontalBounds.Max),
             Mathf.Clamp(moveToPosition.y, screenBounds.VerticalBounds.Min, screenBounds.VerticalBounds.Max), moveToPosition.z);
@@ -107,16 +123,43 @@ public class PlayerMovementController : MonoBehaviour
         rb.MovePosition(moveToPosition);
     }
 
-    private void TouchMove() 
-    { 
-        
+    private void TouchMove()
+    {
+        MovePlayer(GetMovementInputMobile());
     }
 
     private Vector2 GetMovementInputMobile()
     {
-        Vector2 moveInput = new Vector2(0, 0);
+        if (Input.touches.Length > 0)
+        {
+            Touch touch = Input.GetTouch(0);
 
-        return moveInput;
+            if (IsTouching == false)
+            {
+                TouchStart = touch.position;
+                IsTouching = true;
+                TouchSpeedScale = 0.0f;
+                currentMoveSpeed = PlayerMoveSpeed * TouchSpeedScale;
+            }
+            else
+            {
+                TouchMoveVector = (touch.position - TouchStart).normalized;
+                TouchSpeedScale = (touch.position - TouchStart).magnitude / MaxSpeedOuter;
+                Debug.Log((touch.position - TouchStart).magnitude);
+                TouchSpeedScale = Mathf.Min(TouchSpeedScale, 1.0f);
+                currentMoveSpeed = PlayerMoveSpeed * TouchSpeedScale;
+                return TouchMoveVector;
+            }
+
+        }
+        else
+        {
+            IsTouching = false;
+            TouchSpeedScale = 0.0f;
+            currentMoveSpeed = PlayerMoveSpeed * TouchSpeedScale;
+        }
+
+        return new Vector2(0, 0);
     }
 
     private Vector2 GetMovementInputKeyBoard()

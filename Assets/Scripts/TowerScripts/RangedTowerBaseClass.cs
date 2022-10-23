@@ -21,6 +21,7 @@ public class RangedTowerBaseClass : TowerBaseClass
     private float ArrowSpeed = 60.0f;
     [SerializeField]
     private int ArrowPierce = 0;
+
     private void Update()
     {
         AITick();
@@ -33,8 +34,10 @@ public class RangedTowerBaseClass : TowerBaseClass
 
     protected override void Attack(GameObject enemy)
     {
+
         GameObject TempArrow = ProjectileManager.instance.GetBasicArrow();
         TempArrow.transform.position = transform.position;
+        TempArrow.transform.right = enemy.transform.position - transform.position;
         ArrowBehaviorScript TempArrowBehavior = TempArrow.GetComponent<ArrowBehaviorScript>();
         TempArrowBehavior.SetSpeed(ArrowSpeed);
         TempArrowBehavior.SetVelocity((towerTarget.transform.position - transform.position).normalized);

@@ -16,10 +16,42 @@ using UnityEngine.UI;
  */
 public class PlayerMobileJoystickScript : MonoBehaviour
 {
+    [Header("Joystick References")]
     [SerializeField]
     private GameObject JoystickParent;
     [SerializeField]
     private Image JoyStickBase;
     [SerializeField]
     private Image JoystickHead;
+    private PlayerMovementController playerMove;
+    [Header("Joystick Variables")]
+    [SerializeField]
+    private float OuterEdgeDistance = 20.0f;
+
+    private void Start()
+    {
+        playerMove = FindObjectOfType<PlayerMovementController>();
+
+        JoystickParent.SetActive(false);
+    }
+
+    private void Update()
+    {
+        if(playerMove.GetIsTouching())
+        {
+            JoystickParent.SetActive(true);
+            DetermineJoystickPositions();
+        }
+        else
+        {
+            JoystickParent.SetActive(false);
+        }
+    }
+
+    private void DetermineJoystickPositions()
+    {
+        JoyStickBase.transform.position = playerMove.GetTouchStartPosition();
+        Vector3 playerMoveVector = playerMove.GetTouchMovementVector();
+        JoystickHead.transform.position = JoyStickBase.transform.position + playerMoveVector * OuterEdgeDistance * playerMove.GetTouchScale();
+    }
 }

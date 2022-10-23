@@ -15,10 +15,11 @@ using UnityEngine.EventSystems;
  * - 10/19/2022 - Set up distinction between mobile and computer inputs
  * - 10/20/2022 - removed the debug output
  *  -10/23/2022 - Added animation controls
+ *  -10/23/2022 - added functions to help the joystick work
+ *  -10/23/2022 - added a deadzone for the mobile controls
  * 
  * Date Last Modified
- * - 10/20/2022
- * 
+ * - 10/23/2022
  * ------------------------------------------------------------------------------------------------------------------------------------
  */
 
@@ -64,6 +65,8 @@ public class PlayerMovementController : MonoBehaviour
     [SerializeField]
     private float MaxSpeedOuter = 100.0f;
     private float currentMoveSpeed = 0.0f;
+    [SerializeField]
+    private float DeadZonePercent = 0.01f;
 
 
     // Start is called before the first frame update
@@ -145,7 +148,13 @@ public class PlayerMovementController : MonoBehaviour
             {
                 TouchMoveVector = (touch.position - TouchStart).normalized;
                 TouchSpeedScale = (touch.position - TouchStart).magnitude / MaxSpeedOuter;
-                Debug.Log((touch.position - TouchStart).magnitude);
+
+                if(TouchSpeedScale < DeadZonePercent)
+                {
+                    TouchMoveVector = new Vector2(0, 0);
+                    TouchSpeedScale = 0.0f;
+                }
+
                 TouchSpeedScale = Mathf.Min(TouchSpeedScale, 1.0f);
                 currentMoveSpeed = PlayerMoveSpeed * TouchSpeedScale;
                 return TouchMoveVector;
@@ -222,4 +231,23 @@ public class PlayerMovementController : MonoBehaviour
         }
     }
     
+    public Vector2 GetTouchStartPosition()
+    {
+        return TouchStart;
+    }
+
+    public bool GetIsTouching()
+    {
+        return IsTouching;
+    }
+
+    public Vector2 GetTouchMovementVector()
+    {
+        return TouchMoveVector;
+    }
+
+    public float GetTouchScale()
+    {
+        return TouchSpeedScale;
+    }
 }

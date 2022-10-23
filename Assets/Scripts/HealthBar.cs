@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using UnityEngine;
 using UnityEngine.UI;
 /*---------------------------------------
@@ -16,19 +17,49 @@ using UnityEngine.UI;
 */
 public class HealthBar : MonoBehaviour
 {
-    public float MaxHealth = 100.0f;
-    public float CurrentHealth;
-    public float CurrentPercent;
+    [SerializeField, Tooltip("The max health of the object")]
+    private float MaxHealth = 100.0f;
+    [SerializeField, ReadOnly(true)]
+    private float CurrentHealth;
+    [SerializeField, ReadOnly(true)]
+    private float CurrentPercent;
+    [SerializeField, Tooltip("The health gained per second")]
+    private float HealthRegen = 1.0f;
 
-    public GameObject HealthSliderObject;
+    [SerializeField, ReadOnly(true)]
+    private bool IsDead = false;
 
-    public Slider healthSlider;
+    [SerializeField]
+    private GameObject HealthSliderObject;
+    [SerializeField]
+    private Slider healthSlider;
 
     public void Start()
     {
         CurrentHealth = MaxHealth;
 
         UpdateBar();
+    }
+    private void Update()
+    {
+        if (CurrentHealth < MaxHealth)
+        {
+            CurrentHealth += HealthRegen * Time.deltaTime;
+
+            CurrentHealth = Mathf.Min(CurrentHealth, MaxHealth);
+
+            UpdateBar();
+        }
+    }
+
+    public float GetCurrentHealth()
+    {
+        return CurrentHealth;
+    }
+
+    public float GetMaxHealth()
+    {
+        return MaxHealth;
     }
 
     public void SetMaxHealth(float input, bool resetToMax)
@@ -45,7 +76,17 @@ public class HealthBar : MonoBehaviour
     {
         CurrentHealth -= input;
 
+        if(CurrentHealth <= 0)
+        {
+            IsDead = true;
+        }
+
         UpdateBar();
+    }
+
+    public bool GetIsDead()
+    {
+        return IsDead;
     }
 
     private void UpdateBar()

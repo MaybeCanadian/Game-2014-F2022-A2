@@ -12,15 +12,14 @@ using UnityEngine;
  * 10/20/2022 - Created class and added base values like health
  * 10/21/2022 - added basic node based movements
  * 10/22/2022 - added the ability for enemies to take damage and display on the health bar
+ * 10/23/2022 - Moving all health functions to the Health bar to reduce double code
  * 
  * Latest Revision -
- * 10/22/2022
+ * 10/23/2022
  * ----------------------------------------
  */
 public class EnemyBaseClass : MonoBehaviour
 {
-    public float MaxHealth;
-    public float CurrentHealth;
     public int CurrentTargetNode = -1;
     public Vector3 TargetNodePosition;
 
@@ -34,8 +33,6 @@ public class EnemyBaseClass : MonoBehaviour
     protected void Start()
     {
         CurrentTargetNode = -1;
-        CurrentHealth = MaxHealth;
-        healthBar.SetMaxHealth(MaxHealth, true);
         rb = GetComponent<Rigidbody2D>();
 
         Invoke("GetNextNodePosition", 0.00001f);
@@ -85,9 +82,8 @@ public class EnemyBaseClass : MonoBehaviour
 
     public void TakeDamage(float value)
     {
-        CurrentHealth -= value;
         healthBar.TakeDamage(value);
-        if(CurrentHealth <= 0)
+        if(healthBar.GetIsDead())
         {
             Die();
         }
@@ -97,6 +93,16 @@ public class EnemyBaseClass : MonoBehaviour
     {
         CreateDrop();
         Destroy(gameObject);
+    }
+
+    public float GetMaxHealth()
+    {
+        return healthBar.GetMaxHealth();
+    }
+
+    public float GetCurrentHealth()
+    {
+        return healthBar.GetCurrentHealth();
     }
 
     private void CreateDrop()

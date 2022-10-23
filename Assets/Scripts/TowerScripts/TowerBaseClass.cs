@@ -119,10 +119,10 @@ public class TowerBaseClass : MonoBehaviour
         {
             EnemyBaseClass tempEnemyClass = enemy.GetComponent<EnemyBaseClass>();
 
-            if (tempEnemyClass.MaxHealth > mostHealth)
+            if (tempEnemyClass.GetMaxHealth() > mostHealth)
             {
                 Highest = enemy.gameObject;
-                mostHealth = tempEnemyClass.MaxHealth;
+                mostHealth = tempEnemyClass.GetMaxHealth();
                 continue;
             }
         }
@@ -140,10 +140,10 @@ public class TowerBaseClass : MonoBehaviour
 
             EnemyBaseClass tempEnemyClass = enemy.GetComponent<EnemyBaseClass>();
 
-            if (tempEnemyClass.MaxHealth < leastHealth)
+            if (tempEnemyClass.GetMaxHealth() < leastHealth)
             {
                 Lowest = enemy.gameObject;
-                leastHealth = tempEnemyClass.MaxHealth;
+                leastHealth = tempEnemyClass.GetMaxHealth();
                 continue;
             }
         }
@@ -161,10 +161,10 @@ public class TowerBaseClass : MonoBehaviour
 
             EnemyBaseClass tempEnemyClass = enemy.GetComponent<EnemyBaseClass>();
 
-            if (tempEnemyClass.CurrentHealth > currentHighest)
+            if (tempEnemyClass.GetCurrentHealth() > currentHighest)
             {
                 Highest = enemy.gameObject;
-                currentHighest = tempEnemyClass.MaxHealth;
+                currentHighest = tempEnemyClass.GetCurrentHealth();
                 continue;
             }
         }
@@ -182,10 +182,10 @@ public class TowerBaseClass : MonoBehaviour
 
             EnemyBaseClass tempEnemyClass = enemy.GetComponent<EnemyBaseClass>();
 
-            if (tempEnemyClass.CurrentHealth < currentLowest)
+            if (tempEnemyClass.GetCurrentHealth() < currentLowest)
             {
                 Lowest = enemy.gameObject;
-                currentLowest = tempEnemyClass.MaxHealth;
+                currentLowest = tempEnemyClass.GetCurrentHealth();
                 continue;
             }
         }

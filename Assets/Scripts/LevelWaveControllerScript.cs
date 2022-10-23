@@ -1,0 +1,88 @@
+using JetBrains.Annotations;
+using System.Collections;
+using System.Collections.Generic;
+using System.ComponentModel;
+using Unity.VisualScripting;
+using UnityEngine;
+using UnityEngine.Rendering;
+/*------------------------------------------
+* LevelWaveControllerScript.cs - Evan Coffey - 101267129
+* 
+* Keeps track of what needs to be spawned in the waves
+* 
+* Version History -
+* 10/23/2022 - created script
+* 
+* Latest Revision -
+* 10/23/2022
+* -----------------------------------------
+*/
+[System.Serializable]
+public struct waveEnemies //this is an enemy cluster
+{
+    public GameObject EnemyPrefab;
+    public int numToSpawn;
+    public int SpawnLocationToUse;
+    public float TimeBetweenSpawns;
+}
+
+[System.Serializable]
+public struct wave //the waves in the game
+{
+    public List<waveEnemies> enemiesInWave; //the clusters of enemies in the wave
+    public float TimeBeforeNextWave;
+    public float TimeBetweenSpawns;
+}
+
+public class LevelWaveControllerScript : MonoBehaviour
+{
+    [SerializeField]
+    public List<wave> LevelWaves;
+
+    [SerializeField, ReadOnly(true)]
+    private int CurrentWave = 0;
+    [SerializeField, ReadOnly(true)]
+    private int EnemyInWave = 0;
+    [SerializeField, ReadOnly(true)]
+    private int EnemySpawnIt = 0;
+
+    private void Start()
+    {
+        StartCoroutine("SpawnWaves");
+    }
+
+    private IEnumerator SpawnWaves() 
+    {
+        while(CurrentWave < LevelWaves.Count)
+        {
+            EnemyInWave = 0;
+
+            wave WaveCurrent = LevelWaves[CurrentWave];
+
+            while (EnemyInWave < WaveCurrent.enemiesInWave.Count)
+            {
+                EnemySpawnIt = 0;
+
+                waveEnemies enemy = LevelWaves[CurrentWave].enemiesInWave[EnemyInWave];
+
+                while (EnemySpawnIt < enemy.numToSpawn)
+                {
+                    EnemySpawnerScript.instance.SpawnEnemy(enemy.EnemyPrefab, enemy.SpawnLocationToUse);
+                    EnemySpawnIt++;
+
+                    yield return new WaitForSeconds(enemy.TimeBetweenSpawns);
+                }
+                EnemyInWave++;
+
+                yield return new WaitForSeconds(WaveCurrent.TimeBetweenSpawns);
+            }
+
+            yield return new WaitForSeconds(WaveCurrent.TimeBeforeNextWave);
+
+            CurrentWave++;
+        }
+
+        yield break;
+    }
+
+}

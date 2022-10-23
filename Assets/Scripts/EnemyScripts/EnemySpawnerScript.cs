@@ -11,6 +11,7 @@ using UnityEngine;
  * 10/22/2022 - created script and added code to get the enemy prefab from resources
  * 10/22/2022 - set up spawning based on a spawn position, this is made so multiple spawn points can be set up.
  * 10/23/2022 - fixed issue where the parent wasn't being used, now enemies are attached to the parent
+ * 10/23/2022 - moved the wave controlling to its own script
  * 
  * Latest Revision -
  * 10/23/2022
@@ -18,35 +19,28 @@ using UnityEngine;
  */
 public class EnemySpawnerScript : MonoBehaviour
 {
-    [ReadOnly(true), SerializeField]
-    List<GameObject> enemyPrefabs;
-
     [SerializeField]
     List<Transform> SpawnLocations;
 
     [SerializeField]
     Transform SpawnParent;
 
-    private void Start()
-    {
-        StartCoroutine("WaveController");
-    }
+    public static EnemySpawnerScript instance;
 
-    private IEnumerator WaveController()
+    private void Awake()
     {
-
-        while(true)
+        if(instance != null && instance != this)
         {
-            SpawnEnemy(enemyPrefabs[0], SpawnLocations[0]);
-
-            yield return new WaitForSeconds(1.0f);
+            Destroy(this);
         }
-
-        yield return null;
+        else
+        {
+            instance = this;
+        }
     }
 
-    private void SpawnEnemy(GameObject enemy, Transform spawnLocation)
+    public void SpawnEnemy(GameObject enemy, int LocationIndex)
     {
-        GameObject temp = Instantiate(enemy, spawnLocation.position, spawnLocation.rotation, SpawnParent);
+        GameObject temp = Instantiate(enemy, SpawnLocations[LocationIndex].position, SpawnLocations[LocationIndex].rotation, SpawnParent);
     }
 }

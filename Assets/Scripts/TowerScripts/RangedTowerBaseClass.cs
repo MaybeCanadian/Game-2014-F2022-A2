@@ -29,23 +29,9 @@ public class RangedTowerBaseClass : TowerBaseClass
     protected override void AITick()
     {
         base.AITick();
-
-        towerTarget = this.GetClosestEnemyInRange();
-
-        if(!towerTarget)
-        {
-            return;
-        }
-
-        if (AttackCoolDown == false)
-        {
-            AttackCoolDown = true;
-            Invoke("ResetAttackCoolDown", 1.0f / AttackSpeed);
-            Attack(towerTarget);
-        }
     }
 
-    protected void Attack(GameObject enemy)
+    protected override void Attack(GameObject enemy)
     {
         GameObject TempArrow = ProjectileManager.instance.GetBasicArrow();
         TempArrow.transform.position = transform.position;

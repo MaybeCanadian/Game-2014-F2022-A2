@@ -32,11 +32,11 @@ public class TowerBaseClass : MonoBehaviour
 {
     [Header("Tower Statistics")]
     [Tooltip("The Health of the Tower"), SerializeField]
-    protected float TowerHealth;
+    protected float TowerHealth = 100.0f;
     [Header("How far the Tower Detects Enemies"), SerializeField]
-    protected float TowerRange;
+    protected float TowerRange = 1.0f;
     [Range(0.01f, 200.0f), Tooltip("Attacks per seccond"), SerializeField]
-    protected float AttackSpeed;
+    protected float AttackSpeed = 1.0f;
     [Tooltip("If the Tower Can Attack"), ReadOnly(true), SerializeField]
     protected bool AttackCoolDown = false;
     [Tooltip("If Tower has a target"), ReadOnly(true), SerializeField]
@@ -47,6 +47,11 @@ public class TowerBaseClass : MonoBehaviour
 
     protected GameObject towerTarget;
 
+    [Header("Targeting Mode")]
+    [SerializeField]
+    protected TargetingMode currentMode = TargetingMode.CLOSE;
+
+    [Header("Tower Damage")]
     [SerializeField, ReadOnly(true)]
     protected float Damage = 10.0f;
 
@@ -205,7 +210,43 @@ public class TowerBaseClass : MonoBehaviour
         return true;
     }
 
-    protected virtual void AITick() { }
+    protected virtual void AITick()
+    {
+        switch(currentMode)
+        {
+            case TargetingMode.CLOSE:
+                towerTarget = this.GetClosestEnemyInRange();
+                break;
+            case TargetingMode.FAR:
+                towerTarget = this.GetFarthustEnemy();
+                break;
+            case TargetingMode.MOSTMAXHEALTH:
+                towerTarget = this.GetHighestMaxHealth();
+                break;
+            case TargetingMode.LEASTMAXHEALTH:
+                towerTarget = this.GetLowestMaxHealth();
+                break;
+            case TargetingMode.MOSTCURRENTHEALTH:
+                towerTarget = this.GetMaxCurrentHealth();
+                break;
+            case TargetingMode.LEASTCURRENTHEALTH:
+                towerTarget = this.GetLowestCurrentHealth();
+                break;
+        }
+
+        if (!towerTarget)
+        {
+            return;
+        }
+
+        if (AttackCoolDown == false)
+        {
+            AttackCoolDown = true;
+            Invoke("ResetAttackCoolDown", 1.0f / AttackSpeed);
+            Attack(towerTarget);
+        }
+    }
+    protected virtual void Attack(GameObject target) { }
 
     protected float DistanceToTarget(GameObject target)
     {

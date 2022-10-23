@@ -23,17 +23,24 @@ public class PickUpScript : MonoBehaviour
     [SerializeField, ReadOnly(true)]
     public float PickUpValue = 1.0f;
     Vector3 TargetPosition = new Vector3(0, 0, 0);
-
-    private Rigidbody2D rb;
+    public float MoveSpeed = 2.0f;
 
     private void Start()
     {
-        rb = GetComponent<Rigidbody2D>();
         StartCoroutine("MoveToTargerPosition");
     }
 
     private IEnumerator MoveToTargerPosition()
     {
+        while((transform.position - TargetPosition).magnitude > 0.1)
+        {
+            Vector3 moveDirection = TargetPosition - transform.position;
+            moveDirection.Normalize();
+            transform.position = transform.position + moveDirection * MoveSpeed * Time.deltaTime;
+
+            yield return null;
+        }
+
         yield break;
     }
 
@@ -53,13 +60,13 @@ public class PickUpScript : MonoBehaviour
         PickUpValue = value;
     }
 
-    public void AttractToPosition(Vector3 Position, float speed)
-    {
-        Vector3 moveDirection = Position - transform.position;
-        moveDirection.Normalize();
+    //public void AttractToPosition(Vector3 Position, float speed)
+    //{
+    //    Vector3 moveDirection = Position - transform.position;
+    //    moveDirection.Normalize();
 
-        rb.MovePosition(transform.position + moveDirection * speed * Time.deltaTime);
-    }
+    //    rb.MovePosition(transform.position + moveDirection * speed * Time.deltaTime);
+    //}
 
     public void PickUpPickUp()
     {

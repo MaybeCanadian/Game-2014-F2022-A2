@@ -126,3 +126,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dropType: 0
   PickUpValue: 10
+  MoveSpeed: 10

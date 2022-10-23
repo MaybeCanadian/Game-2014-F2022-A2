@@ -10,9 +10,10 @@ using UnityEngine;
  * Version History -
  * 10/22/2022 - created script and added code to get the enemy prefab from resources
  * 10/22/2022 - set up spawning based on a spawn position, this is made so multiple spawn points can be set up.
+ * 10/23/2022 - fixed issue where the parent wasn't being used, now enemies are attached to the parent
  * 
  * Latest Revision -
- * 10/22/2022
+ * 10/23/2022
  * ------------------------------------
  */
 public class EnemySpawnerScript : MonoBehaviour
@@ -46,6 +47,6 @@ public class EnemySpawnerScript : MonoBehaviour
 
     private void SpawnEnemy(GameObject enemy, Transform spawnLocation)
     {
-        GameObject temp = Instantiate(enemy, spawnLocation.position, spawnLocation.rotation);
+        GameObject temp = Instantiate(enemy, spawnLocation.position, spawnLocation.rotation, SpawnParent);
     }
 }

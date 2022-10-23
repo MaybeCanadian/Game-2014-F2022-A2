@@ -16,6 +16,11 @@ using UnityEngine;
 
 public class MageTowerBaseClass : TowerBaseClass
 {
+    [SerializeField]
+    private float ProjectileSpeed = 30.0f;
+    [SerializeField]
+    private float BlastRadius = 1.0f;
+
     private void Update()
     {
         AITick();

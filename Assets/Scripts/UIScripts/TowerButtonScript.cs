@@ -24,20 +24,42 @@ public class TowerButtonScript : MonoBehaviour
     [SerializeField]
     private Button TowerButton;
     [SerializeField]
-    private Text TowerText;
+    private TMP_Text TowerName;
+    [SerializeField]
+    private TMP_Text TowerCost;
+    [SerializeField]
+    private GameObject TowerButtonParent;
+    [SerializeField]
+    private int TowerIndex;
 
     private void Start()
     {
-        TowerText = TowerButton.GetComponentInChildren<Text>();
+        //TowerIndex = TowerPurchuseUIScript.instance.AddButton(this);  
+        //was gonna have them add themselves but to preserve order I'll do it manually
     }
 
-    public void SetText(string text)
+    public void SetTowerButtonActive(bool value)
     {
-        TowerText.text = text;
+        TowerButtonParent.SetActive(value);
+    }
+
+    public void SetTowerName(string text)
+    {
+        TowerName.text = text;
+    }
+
+    public void SetTowerCost(int cost)
+    {
+        TowerCost.text = cost.ToString();
     }
 
     public void SetImage(Sprite image)
     {
         TowerImage.sprite = image;
+    }
+
+    public void OnBuyButtonPress()
+    {
+        TowerPurchuseUIScript.instance.TowerButtonPressed(TowerIndex);
     }
 }

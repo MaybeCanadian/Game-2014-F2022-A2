@@ -9,21 +9,24 @@ using UnityEngine;
  * Version History -
  * 10/22/2022 - created script
  * 10/23/2022 - added functions that give the gold and XP values of the player for the UI
+ * 10/23/2022 - Removed the starting gold of zero to now start with 50
  * 
  * Latest Revision -
- * 10/22/2022
+ * 10/23/2022
  * ----------------------------------------------
  */
 public class CurrencyManagerScript : MonoBehaviour
 {
-    public int Gold;
-    public int XP;
+    [SerializeField]
+    private int Gold;
+    [SerializeField]
+    private int XP;
 
     public static CurrencyManagerScript instance;
 
     private void Awake()
     {
-        if(instance != null && instance != this)
+        if (instance != null && instance != this)
         {
             Destroy(this);
         }
@@ -31,9 +34,6 @@ public class CurrencyManagerScript : MonoBehaviour
         {
             instance = this;
         }
-
-        Gold = 0;
-        XP = 0;
     }
 
     public void StartNewLevel()

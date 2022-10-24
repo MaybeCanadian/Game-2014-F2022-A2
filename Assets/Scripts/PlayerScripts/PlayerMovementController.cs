@@ -113,7 +113,7 @@ public class PlayerMovementController : MonoBehaviour
 
         currentMoveSpeed = PlayerMoveSpeed;
         MovePlayer(GetMovementInputKeyBoard());
-    }
+    } //moves the player based on keyboard controls
 
     private void MovePlayer(Vector3 moveTarget)
     {
@@ -125,12 +125,12 @@ public class PlayerMovementController : MonoBehaviour
             Mathf.Clamp(moveToPosition.y, screenBounds.VerticalBounds.Min, screenBounds.VerticalBounds.Max), moveToPosition.z);
 
         rb.MovePosition(moveToPosition);
-    }
-
+    } //actually moves the player based off the given input
+   
     private void TouchMove()
     {
         MovePlayer(GetMovementInputMobile());
-    }
+    } //moves the player based on touch controls
 
     private Vector2 GetMovementInputMobile()
     {
@@ -170,16 +170,16 @@ public class PlayerMovementController : MonoBehaviour
         }
 
         return new Vector2(0, 0);
-    }
+    } //gets the movement input by touches
 
     private Vector2 GetMovementInputKeyBoard()
     {
         Vector2 moveInput = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
         //Debug.Log(moveInput);
         return moveInput;
-    }
+    } //gets the movement input by keyboard keys
 
-    private void DoAnimations(Vector2 moveInput)
+    private void DoAnimations(Vector2 moveInput) //checks the current moveInput, no matter if keyboard or mobile and sets up the anim bools accordingly
     {
         MovementDirections moveDirection = MovementDirections.NONE;
 
@@ -213,7 +213,7 @@ public class PlayerMovementController : MonoBehaviour
         anims.SetBool("WalkingDown", false);
         anims.SetBool("WalkingLeft", false);
         anims.SetBool("WalkingRight", false);
-    }
+    } //sets all anim bools back to false
 
     private void SetAnimBool(MovementDirections direction)
     {
@@ -235,14 +235,14 @@ public class PlayerMovementController : MonoBehaviour
                 //nothing
                 break;
         }
-    }
+    } //sets an anim bool to true based on the movement direction, the animator handles the rest
     
     public Vector2 GetTouchStartPosition()
     {
         return TouchStart;
-    }
+    } //returns the touch start for the joystick, for the base
 
-    public bool GetIsTouching()
+    public bool GetIsTouching() //returns if there is touch input for the joystick
     {
         return IsTouching;
     }
@@ -250,10 +250,10 @@ public class PlayerMovementController : MonoBehaviour
     public Vector2 GetTouchMovementVector()
     {
         return TouchMoveVector;
-    }
+    } //returns the current movement input to adjust the head of the joystick
 
     public float GetTouchScale()
     {
         return TouchSpeedScale;
-    }
+    } //gets the relative distance from the start point for the distance the head is from base
 }

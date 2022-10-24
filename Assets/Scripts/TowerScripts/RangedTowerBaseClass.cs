@@ -10,9 +10,10 @@ using UnityEngine;
  * 10/20/2022 - Created File and set up basic AI tick using base tower functions
  * 10/21/2022 - Added in some basic atack patterns, for now will output a debug message
  * 10/22/2022 - Added variables to help control the type of arrow the tower shoots
+ * 10/23/2022 - adjusted the attack function to call the new setup function of the arrow
  * 
  * Latest Revision -
- * 10/22/2022
+ * 10/23/2022
  * -----------------------------
  */
 public class RangedTowerBaseClass : TowerBaseClass
@@ -43,6 +44,7 @@ public class RangedTowerBaseClass : TowerBaseClass
         TempArrowBehavior.SetVelocity((towerTarget.transform.position - transform.position).normalized);
         TempArrowBehavior.SetDamage(Damage);
         TempArrowBehavior.SetPierces(ArrowPierce);
+        TempArrowBehavior.SetUp();
     }
 
 }

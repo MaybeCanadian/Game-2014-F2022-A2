@@ -1,6 +1,7 @@
 using Mono.Cecil.Cil;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using UnityEditor.Rendering;
 using UnityEngine;
 /*-----------------------------------------
@@ -13,6 +14,7 @@ using UnityEngine;
  * 10/21/2022 - added basic node based movements
  * 10/22/2022 - added the ability for enemies to take damage and display on the health bar
  * 10/23/2022 - Moving all health functions to the Health bar to reduce double code
+ * 10/23/2022 - add some formatting to the variables and made a new one for when it reaches the exit. Reaching exit does damage
  * 
  * Latest Revision -
  * 10/23/2022
@@ -20,15 +22,23 @@ using UnityEngine;
  */
 public class EnemyBaseClass : MonoBehaviour
 {
-    public int CurrentTargetNode = -1;
-    public Vector3 TargetNodePosition;
+    [SerializeField, ReadOnly(true)]
+    private int CurrentTargetNode = -1;
+    [SerializeField, ReadOnly(true)]
+    private Vector3 TargetNodePosition;
 
-    public float speed = 10.0f;
-    public float Deviation = 0.5f;
+    [SerializeField]
+    private float speed = 10.0f;
+    [SerializeField]
+    private float Deviation = 0.5f;
 
-    public HealthBar healthBar;
+    [SerializeField]
+    private int EscapeDamage = 1;
 
-    Rigidbody2D rb;
+    [SerializeField]
+    private HealthBar healthBar;
+
+    private Rigidbody2D rb;
 
     protected void Start()
     {
@@ -44,8 +54,7 @@ public class EnemyBaseClass : MonoBehaviour
 
         if(CurrentTargetNode >= MapNodeControllerScript.instance.GetMaxNodes())
         {
-            Debug.Log("Ouch");
-            Destroy(gameObject);
+            ReachExit();
             return;
         }
         TargetNodePosition = MapNodeControllerScript.instance.GetNodePosition(CurrentTargetNode);
@@ -92,6 +101,12 @@ public class EnemyBaseClass : MonoBehaviour
     private void Die()
     {
         CreateDrop();
+        Destroy(gameObject);
+    }
+
+    private void ReachExit() //this could be changed to use an object pool for the enemies
+    {
+        LevelHealthController.instance.LoseHealth(EscapeDamage);
         Destroy(gameObject);
     }
 

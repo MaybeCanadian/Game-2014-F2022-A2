@@ -59,6 +59,9 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: PickUps
+    uniqueID: 492092495
+    locked: 0
   - name: Enemy
     uniqueID: 3922169789
     locked: 0
@@ -73,4 +76,7 @@ TagManager:
     locked: 0
   - name: TreeTops
     uniqueID: 2805451735
+    locked: 0
+  - name: UI
+    uniqueID: 3129781729
     locked: 0

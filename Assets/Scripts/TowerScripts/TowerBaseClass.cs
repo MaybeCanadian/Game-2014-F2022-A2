@@ -42,6 +42,12 @@ public class TowerBaseClass : MonoBehaviour
     [Tooltip("If Tower has a target"), ReadOnly(true), SerializeField]
     protected bool TowerHasTarget = false;
 
+    [Header("Sprite Direction")]
+    [SerializeField, Tooltip("Add in order Left, Up, Right, Down")]
+    private Sprite[] directionSprites = new Sprite[4];
+    [SerializeField]
+    private SpriteRenderer sr;
+
     [Header("Enemy Layer")]
     public LayerMask EnemyLayerMask;
 
@@ -50,6 +56,8 @@ public class TowerBaseClass : MonoBehaviour
     [Header("Targeting Mode")]
     [SerializeField]
     protected TargetingMode currentMode = TargetingMode.CLOSE;
+    [SerializeField]
+    protected float LookAngle;
 
     [Header("Tower Damage")]
     [SerializeField, ReadOnly(true)]
@@ -60,6 +68,7 @@ public class TowerBaseClass : MonoBehaviour
         AttackCoolDown = false;
         TowerHasTarget = false;
         towerTarget = null;
+        sr = GetComponent<SpriteRenderer>();
     }
 
     protected void ResetAttackCoolDown()
@@ -241,11 +250,49 @@ public class TowerBaseClass : MonoBehaviour
 
         if (AttackCoolDown == false)
         {
+            FaceTarget(towerTarget);
             AttackCoolDown = true;
             Invoke("ResetAttackCoolDown", 1.0f / AttackSpeed);
             Attack(towerTarget);
         }
     }
+    protected void FaceTarget(GameObject target)
+    {
+        Vector3 LookDirection = transform.position - target.transform.position;
+        LookDirection.Normalize();
+        if (LookDirection.x != 0) {
+            LookAngle = Mathf.Tan(LookDirection.y / LookDirection.x);
+        }
+        else
+        {
+            LookAngle = 0.0f;
+        }
+
+        LookAngle = LookAngle * Mathf.Rad2Deg;
+
+        if(LookAngle < 90)
+        {
+            sr.sprite = directionSprites[0];
+            return;
+        }
+        
+        if(LookAngle < 180)
+        {
+            sr.sprite = directionSprites[1];
+            return;
+        }
+
+        if(LookAngle < 270)
+        {
+            sr.sprite = directionSprites[2];
+            return;
+        }
+
+        sr.sprite = directionSprites[3];
+
+
+    }
+
     protected virtual void Attack(GameObject target) { }
 
     protected float DistanceToTarget(GameObject target)

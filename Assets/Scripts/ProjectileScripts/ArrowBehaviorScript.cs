@@ -10,9 +10,10 @@ using UnityEngine;
  * 10/22/2022 - created script
  * 10/22/2022 - adjusted the script to use a movespeed
  * 10/22/2022 - added more values for the arrow
+ * 10/23/2022 - Adjusted the arrow to know if it should be removed to not damage extra enemies by accident
  * 
  * Latest Revision -
- * 10/22/2022
+ * 10/23/2022
  * ------------------------------------------
  */
 public class ArrowBehaviorScript : MonoBehaviour
@@ -24,11 +25,19 @@ public class ArrowBehaviorScript : MonoBehaviour
 
     public int Pierces = 0;
     private int PierceCount = 0;
+    public bool IsRemoved = false;
 
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         Invoke("RemoveArrow", LifeSpan);
+        PierceCount = 0;
+    }
+
+    public void SetUp()
+    {
+        IsRemoved = false;
+        PierceCount = 0;
     }
 
     public void SetVelocity(Vector3 input)
@@ -60,14 +69,18 @@ public class ArrowBehaviorScript : MonoBehaviour
     {
         if (collision.tag == "Enemy")
         {
-            collision.gameObject.GetComponent<EnemyBaseClass>().TakeDamage(ArrowDamage);
-
-            if (PierceCount >= Pierces)
+            if (!IsRemoved)
             {
-                RemoveArrow();
-            }
+                collision.gameObject.GetComponent<EnemyBaseClass>().TakeDamage(ArrowDamage);
 
-            PierceCount++;
+                if (PierceCount >= Pierces)
+                {
+                    IsRemoved = true;
+                    RemoveArrow();
+                }
+
+                PierceCount++;
+            }
         }
     }
 }

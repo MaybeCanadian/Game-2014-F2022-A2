@@ -73,8 +73,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 157728925
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: 1327559015, guid: 26070058fbe71f74a99ed74cc0d75bc2, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -130,14 +130,20 @@ MonoBehaviour:
   AttackSpeed: 1
   AttackCoolDown: 0
   TowerHasTarget: 0
+  directionSprites:
+  - {fileID: 1761503181, guid: 26070058fbe71f74a99ed74cc0d75bc2, type: 3}
+  - {fileID: 1327559015, guid: 26070058fbe71f74a99ed74cc0d75bc2, type: 3}
+  - {fileID: 2020969966, guid: 26070058fbe71f74a99ed74cc0d75bc2, type: 3}
+  - {fileID: 921981320, guid: 26070058fbe71f74a99ed74cc0d75bc2, type: 3}
+  sr: {fileID: 0}
   EnemyLayerMask:
     serializedVersion: 2
     m_Bits: 8
   currentMode: 0
+  LookAngle: 0
   Damage: 10
   ArrowSpeed: 60
   ArrowPierce: 1
-  ArrowSpawnTransform: {fileID: 1923056867036787111}
 --- !u!1 &8163971724994002389
 GameObject:
   m_ObjectHideFlags: 0

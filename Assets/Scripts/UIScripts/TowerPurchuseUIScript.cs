@@ -60,7 +60,33 @@ public class TowerPurchuseUIScript : MonoBehaviour
     {
         OnClosePress();
         Time.timeScale = 0.0f;
-        TowerMakingScript.instance.SpawnTower(buttons[index].TowerPrefab);
+        GameObject Tower = TowerMakingScript.instance.SpawnTower(buttons[index].TowerPrefab);
+        StartCoroutine("WaitForPlacement", Tower);
+
+    }
+
+    private IEnumerator WaitForPlacement(GameObject Tower)
+    {
+        bool chosen = false;
+        yield return null;
+        while (chosen == false)
+        {
+            if (Input.touches.Length > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
+            {
+                Camera camera = Camera.main;
+                while (!(Input.GetTouch(0).phase != TouchPhase.Ended)) {
+                    yield return null;
+                }
+                Tower.transform.position = camera.ScreenToWorldPoint(Input.GetTouch(0).position);
+                Tower.transform.position = new Vector3(Tower.transform.position.x, Tower.transform.position.y, 0.0f);
+                Tower.SetActive(true);
+                Time.timeScale = 1.0f;
+                chosen = true;
+            }
+
+            yield return null;
+        }
+        yield break;
     }
 
     private void Start() //starts with the ui hidden and the open button visible

@@ -250,7 +250,7 @@ public class TowerBaseClass : MonoBehaviour
 
         if (AttackCoolDown == false)
         {
-            FaceTarget(towerTarget);
+            //FaceTarget(towerTarget); //doesn't want to work
             AttackCoolDown = true;
             Invoke("ResetAttackCoolDown", 1.0f / AttackSpeed);
             Attack(towerTarget);

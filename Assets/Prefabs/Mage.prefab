@@ -31,7 +31,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: -1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &8945341819707137462
 SpriteRenderer:
@@ -103,9 +103,9 @@ MonoBehaviour:
   AttackCoolDown: 0
   TowerHasTarget: 0
   directionSprites:
-  - {fileID: 146306242, guid: eb6ea088964994947b3d1794f8c82e72, type: 3}
-  - {fileID: -1135225128, guid: eb6ea088964994947b3d1794f8c82e72, type: 3}
   - {fileID: -2080954970, guid: eb6ea088964994947b3d1794f8c82e72, type: 3}
+  - {fileID: -1135225128, guid: eb6ea088964994947b3d1794f8c82e72, type: 3}
+  - {fileID: 146306242, guid: eb6ea088964994947b3d1794f8c82e72, type: 3}
   - {fileID: -1858030096, guid: eb6ea088964994947b3d1794f8c82e72, type: 3}
   sr: {fileID: 0}
   EnemyLayerMask:

@@ -21,9 +21,11 @@ public class TowerMakingScript : MonoBehaviour
         }
     }
 
-    public void SpawnTower(GameObject prefab)
+    public GameObject SpawnTower(GameObject prefab)
     {
         GameObject Tower = Instantiate(prefab, TowerParent);
         Tower.transform.position = new Vector3(0, 0, 0);
+        Tower.SetActive(false);
+        return Tower;
     }
 }

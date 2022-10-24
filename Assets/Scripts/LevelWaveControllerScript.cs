@@ -48,25 +48,26 @@ public class LevelWaveControllerScript : MonoBehaviour
 
     private void Start()
     {
+        CurrencyManagerScript.instance.StartNewLevel();
         StartCoroutine("SpawnWaves");
     }
 
-    private IEnumerator SpawnWaves() 
+    private IEnumerator SpawnWaves() //spawns the enemies in the waves
     {
-        while(CurrentWave < LevelWaves.Count)
+        while(CurrentWave < LevelWaves.Count) //we check we have a wave to spawn
         {
             Debug.Log("Starting Wave " + CurrentWave);
             EnemyInWave = 0;
 
             wave WaveCurrent = LevelWaves[CurrentWave];
 
-            while (EnemyInWave < WaveCurrent.enemiesInWave.Count)
+            while (EnemyInWave < WaveCurrent.enemiesInWave.Count) //we check we have clusters
             {
                 EnemySpawnIt = 0;
 
                 waveEnemies enemy = LevelWaves[CurrentWave].enemiesInWave[EnemyInWave];
 
-                while (EnemySpawnIt < enemy.numToSpawn)
+                while (EnemySpawnIt < enemy.numToSpawn) //we spawn the enmeies in the cluster
                 {
                     EnemySpawnerScript.instance.SpawnEnemy(enemy.EnemyPrefab, enemy.SpawnLocationToUse);
                     EnemySpawnIt++;

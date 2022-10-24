@@ -17,6 +17,7 @@ using UnityEngine.EventSystems;
  *  -10/23/2022 - Added animation controls
  *  -10/23/2022 - added functions to help the joystick work
  *  -10/23/2022 - added a deadzone for the mobile controls
+ *  -10/23/2022 - changed enimations to proritize the bigger greater absolute value
  * 
  * Date Last Modified
  * - 10/23/2022
@@ -183,15 +184,20 @@ public class PlayerMovementController : MonoBehaviour
         MovementDirections moveDirection = MovementDirections.NONE;
 
         if (moveInput.x < 0)
+        {
             moveDirection = MovementDirections.LEFT;
+        }
         else if (moveInput.x > 0)
+        {
             moveDirection = MovementDirections.RIGHT;
-
-        if (moveInput.y < 0)
-            moveDirection = MovementDirections.DOWN;
-        else if (moveInput.y > 0)
-            moveDirection = MovementDirections.UP;
-
+        }
+        if (Mathf.Abs(moveInput.x) <= Mathf.Abs(moveInput.y))
+        {
+            if (moveInput.y < 0)
+                moveDirection = MovementDirections.DOWN;
+            else if (moveInput.y > 0)
+                moveDirection = MovementDirections.UP;
+        }
 
         if (lastDirection != moveDirection)
         {

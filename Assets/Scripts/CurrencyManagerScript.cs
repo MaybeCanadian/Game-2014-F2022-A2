@@ -8,6 +8,7 @@ using UnityEngine;
  * 
  * Version History -
  * 10/22/2022 - created script
+ * 10/23/2022 - added functions that give the gold and XP values of the player for the UI
  * 
  * Latest Revision -
  * 10/22/2022
@@ -16,7 +17,7 @@ using UnityEngine;
 public class CurrencyManagerScript : MonoBehaviour
 {
     public int Gold;
-    public float XP;
+    public int XP;
 
     public static CurrencyManagerScript instance;
 
@@ -30,6 +31,14 @@ public class CurrencyManagerScript : MonoBehaviour
         {
             instance = this;
         }
+
+        Gold = 0;
+        XP = 0;
+    }
+
+    public void StartNewLevel()
+    {
+        XP = 0;
     }
 
     public void AddGold(int value)
@@ -37,8 +46,18 @@ public class CurrencyManagerScript : MonoBehaviour
         Gold += value;
     }
 
-    public void AddXP(float value)
+    public void AddXP(int value)
     {
         XP += value;
+    }
+
+    public int GetGold()
+    {
+        return Gold;
+    }
+
+    public int GetXP()
+    {
+        return XP;
     }
 }

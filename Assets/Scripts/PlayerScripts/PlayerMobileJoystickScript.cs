@@ -35,7 +35,7 @@ public class PlayerMobileJoystickScript : MonoBehaviour
         JoystickParent.SetActive(false);
     }
 
-    private void Update()
+    private void Update() //if the player is using touch controls it will show the UI when they touch and remove it when they let go
     {
         if(playerMove.GetIsTouching())
         {
@@ -48,7 +48,7 @@ public class PlayerMobileJoystickScript : MonoBehaviour
         }
     }
 
-    private void DetermineJoystickPositions()
+    private void DetermineJoystickPositions() //using the values from the player controller we see where the joysticks need to go.
     {
         JoyStickBase.transform.position = playerMove.GetTouchStartPosition();
         Vector3 playerMoveVector = playerMove.GetTouchMovementVector();

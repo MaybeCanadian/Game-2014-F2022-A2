@@ -23,17 +23,17 @@ public class TowerPurchuseUIScript : MonoBehaviour
     [SerializeField]
     private GameObject OpenButton;
 
-    private void Start()
+    private void Start() //starts with the ui hidden and the open button visible
     {
         towerUIParent.SetActive(false);
         OpenButton.SetActive(true);
     }
 
-    public void SetUIActive(bool input)
+    public void SetUIActive(bool input) //currently unused, here if another script would want to change if its open
     {
         Active = input;
     }
-    public void OnOpenPress()
+    public void OnOpenPress() //connects to the open button on the tower Buy UI
     {
         Debug.Log("open");
         Active = true;
@@ -41,7 +41,7 @@ public class TowerPurchuseUIScript : MonoBehaviour
         OpenButton.SetActive(false);
     }
 
-    public void OnClosePress()
+    public void OnClosePress() //connects to the close button on the tower Buy UI
     {
         Debug.Log("close");
         Active = false;

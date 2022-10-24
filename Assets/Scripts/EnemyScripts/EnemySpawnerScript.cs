@@ -27,7 +27,7 @@ public class EnemySpawnerScript : MonoBehaviour
 
     public static EnemySpawnerScript instance;
 
-    private void Awake()
+    private void Awake() //sets up the single reference
     {
         if(instance != null && instance != this)
         {
@@ -39,7 +39,8 @@ public class EnemySpawnerScript : MonoBehaviour
         }
     }
 
-    public void SpawnEnemy(GameObject enemy, int LocationIndex)
+    public void SpawnEnemy(GameObject enemy, int LocationIndex) //spawns an enemy with a certain prefab at a certain spawn locations,
+                                                                //in first level only inbe spawn, this can change later on with later levels
     {
         GameObject temp = Instantiate(enemy, SpawnLocations[LocationIndex].position, SpawnLocations[LocationIndex].rotation, SpawnParent);
     }

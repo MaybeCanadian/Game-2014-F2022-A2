@@ -24,6 +24,7 @@ public struct waveEnemies //this is an enemy cluster
     public int numToSpawn;
     public int SpawnLocationToUse;
     public float TimeBetweenSpawns;
+    public float TimeUntilNextGroup;
 }
 
 [System.Serializable]
@@ -31,7 +32,6 @@ public struct wave //the waves in the game
 {
     public List<waveEnemies> enemiesInWave; //the clusters of enemies in the wave
     public float TimeBeforeNextWave;
-    public float TimeBetweenSpawns;
 }
 
 public class LevelWaveControllerScript : MonoBehaviour
@@ -55,6 +55,7 @@ public class LevelWaveControllerScript : MonoBehaviour
     {
         while(CurrentWave < LevelWaves.Count)
         {
+            Debug.Log("Starting Wave " + CurrentWave);
             EnemyInWave = 0;
 
             wave WaveCurrent = LevelWaves[CurrentWave];
@@ -74,7 +75,7 @@ public class LevelWaveControllerScript : MonoBehaviour
                 }
                 EnemyInWave++;
 
-                yield return new WaitForSeconds(WaveCurrent.TimeBetweenSpawns);
+                yield return new WaitForSeconds(enemy.TimeUntilNextGroup);
             }
 
             yield return new WaitForSeconds(WaveCurrent.TimeBeforeNextWave);

@@ -32,6 +32,6 @@ public class MageTowerBaseClass : TowerBaseClass
 
     protected override void Attack(GameObject target)
     {
-        Debug.Log("attack Mage");
+        //Debug.Log("attack Mage");
     }
 }

@@ -60,4 +60,15 @@ public class CurrencyManagerScript : MonoBehaviour
     {
         return XP;
     }
+
+    public bool UseGold(int value)
+    {
+        if(Gold >= value)
+        {
+            Gold -= value;
+            return true;
+        }
+
+        return false;
+    }
 }

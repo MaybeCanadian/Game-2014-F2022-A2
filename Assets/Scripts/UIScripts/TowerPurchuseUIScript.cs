@@ -58,11 +58,13 @@ public class TowerPurchuseUIScript : MonoBehaviour
 
     public void TowerButtonPressed(int index)
     {
-        OnClosePress();
-        Time.timeScale = 0.0f;
-        GameObject Tower = TowerMakingScript.instance.SpawnTower(buttons[index].TowerPrefab);
-        StartCoroutine("WaitForPlacement", Tower);
-
+        if (CurrencyManagerScript.instance.UseGold(buttons[index].TowerCost))
+        {
+            OnClosePress();
+            Time.timeScale = 0.0f;
+            GameObject Tower = TowerMakingScript.instance.SpawnTower(buttons[index].TowerPrefab);
+            StartCoroutine("WaitForPlacement", Tower);
+        }
     }
 
     private IEnumerator WaitForPlacement(GameObject Tower)

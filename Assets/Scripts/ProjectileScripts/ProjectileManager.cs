@@ -16,6 +16,7 @@ using UnityEngine;
  */
 public class ProjectileManager : MonoBehaviour
 {
+    [Header("Basic Arrows")]
     [SerializeField, ReadOnly(true)]
     private Queue<GameObject> BasicArrowPool;
     [SerializeField, ReadOnly(true)]
@@ -24,6 +25,15 @@ public class ProjectileManager : MonoBehaviour
     private float StartingArrows = 50;
     [SerializeField, ReadOnly(true)]
     private float remainingArrows = 0;
+    [Header("Magic Balls")]
+    [SerializeField, ReadOnly(true)]
+    private Queue<GameObject> MagicProjPool;
+    [SerializeField, ReadOnly(true)]
+    private float ActiveMagic = 0;
+    [SerializeField]
+    private float StartingMagic = 50;
+    [SerializeField, ReadOnly(true)]
+    private float RemainingMagic = 0;
 
     public static ProjectileManager instance;
 
@@ -41,10 +51,11 @@ public class ProjectileManager : MonoBehaviour
 
     private void Start()
     {
-        SetUpProjectilePool();
+        SetUpArrowPool();
+        SetUpMagicPool();
     }
 
-    private void SetUpProjectilePool()
+    private void SetUpArrowPool()
     {
         BasicArrowPool = new Queue<GameObject>();
 
@@ -56,12 +67,32 @@ public class ProjectileManager : MonoBehaviour
         remainingArrows = BasicArrowPool.Count;
     }
 
+    private void SetUpMagicPool()
+    {
+        MagicProjPool = new Queue<GameObject>();
+
+        for (int i = 0; i < StartingMagic; i++)
+        {
+            AddMagic();
+        }
+
+        RemainingMagic = MagicProjPool.Count;
+    }
+
     private void AddArrow()
     {
         GameObject TempArrow = ProjectileFactory.instance.CreateProjectile(ProjectileTypes.BasicArrow);
         TempArrow.SetActive(false);
 
         BasicArrowPool.Enqueue(TempArrow);
+    }
+
+    private void AddMagic()
+    {
+        GameObject TempMagic = ProjectileFactory.instance.CreateProjectile(ProjectileTypes.Magic);
+        TempMagic.SetActive(false);
+
+        MagicProjPool.Enqueue(TempMagic);
     }
 
     public GameObject GetBasicArrow()
@@ -79,11 +110,34 @@ public class ProjectileManager : MonoBehaviour
         return TempArrow;
     }
 
+    public GameObject GetMagicShot()
+    {
+        if (MagicProjPool.Count == 0)
+        {
+            AddMagic();
+        }
+
+        GameObject TempMagic = MagicProjPool.Dequeue();
+        TempMagic.SetActive(true);
+        ActiveMagic++;
+        RemainingMagic = MagicProjPool.Count;
+
+        return TempMagic;
+    }
+
     public void ReturnArrow(GameObject arrow)
     {
         arrow.SetActive(false);
         BasicArrowPool.Enqueue(arrow);
         activeArrows--;
         remainingArrows = BasicArrowPool.Count;
+    }
+
+    public void ResturnMagic(GameObject magic)
+    {
+        magic.SetActive(false);
+        MagicProjPool.Enqueue(magic);
+        ActiveMagic--;
+        RemainingMagic = MagicProjPool.Count;
     }
 }

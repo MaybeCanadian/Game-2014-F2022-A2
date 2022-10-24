@@ -18,16 +18,22 @@ using UnityEngine;
  */
 public class ArrowBehaviorScript : MonoBehaviour
 {
-    public Rigidbody2D rb;
-    public float arrowSpeed = 40.0f;
-    public float LifeSpan = 10.0f;
-    public float ArrowDamage = 10.0f;
+    [Header("Projectile Values")]
+    [SerializeField]
+    protected Rigidbody2D rb;
+    [SerializeField]
+    protected float arrowSpeed = 40.0f;
+    [SerializeField]
+    protected float LifeSpan = 10.0f;
+    [SerializeField]
+    protected float Damage = 10.0f;
+    [SerializeField]
+    protected int Pierces = 0;
 
-    public int Pierces = 0;
     private int PierceCount = 0;
     public bool IsRemoved = false;
 
-    private void Start()
+    protected void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         Invoke("RemoveArrow", LifeSpan);
@@ -52,7 +58,7 @@ public class ArrowBehaviorScript : MonoBehaviour
 
     public void SetDamage(float input)
     {
-        ArrowDamage = input;
+        Damage = input;
     }
 
     public void SetPierces(int value)
@@ -60,27 +66,32 @@ public class ArrowBehaviorScript : MonoBehaviour
         Pierces = value;
     }
 
-    private void RemoveArrow()
+    protected void RemoveArrow()
     {
         ProjectileManager.instance.ReturnArrow(gameObject);
+    }
+
+    private void HitSomething(GameObject other)
+    {
+        if (!IsRemoved)
+        {
+            other.GetComponent<EnemyBaseClass>().TakeDamage(Damage);
+
+            if (PierceCount >= Pierces)
+            {
+                IsRemoved = true;
+                RemoveArrow();
+            }
+
+            PierceCount++;
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.tag == "Enemy")
         {
-            if (!IsRemoved)
-            {
-                collision.gameObject.GetComponent<EnemyBaseClass>().TakeDamage(ArrowDamage);
-
-                if (PierceCount >= Pierces)
-                {
-                    IsRemoved = true;
-                    RemoveArrow();
-                }
-
-                PierceCount++;
-            }
+            this.HitSomething(collision.gameObject);
         }
     }
 }

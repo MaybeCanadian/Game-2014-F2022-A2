@@ -19,7 +19,8 @@ using UnityEngine;
 [System.Serializable]
 public enum ProjectileTypes
 {
-    BasicArrow
+    BasicArrow,
+    Magic
 }
 
 public class ProjectileFactory : MonoBehaviour
@@ -45,6 +46,8 @@ public class ProjectileFactory : MonoBehaviour
 
         //basic arrow
         ProjectilePrefabs.Add(Resources.Load<GameObject>("Prefabs/Projectiles/BasicArrow"));
+        //magic shot
+        ProjectilePrefabs.Add(Resources.Load<GameObject>("Prefabs/Projectiles/MagicShot"));
     }
 
     public GameObject CreateProjectile(ProjectileTypes type)

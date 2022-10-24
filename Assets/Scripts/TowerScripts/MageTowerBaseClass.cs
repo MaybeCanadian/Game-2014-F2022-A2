@@ -30,8 +30,16 @@ public class MageTowerBaseClass : TowerBaseClass
         base.AITick();
     }
 
-    protected override void Attack(GameObject target)
+    protected override void Attack(GameObject enemy)
     {
-        //Debug.Log("attack Mage");
+        GameObject TempMagic = ProjectileManager.instance.GetMagicShot();
+        TempMagic.transform.position = transform.position;
+        TempMagic.transform.right = enemy.transform.position - transform.position;
+        ArrowBehaviorScript TempMagicBehavior = TempMagic.GetComponent<MagicBehaviourScript>();
+        TempMagicBehavior.SetSpeed(ProjectileSpeed);
+        TempMagicBehavior.SetVelocity((towerTarget.transform.position - transform.position).normalized);
+        TempMagicBehavior.SetDamage(Damage);
+        TempMagicBehavior.SetPierces(0);
+        TempMagicBehavior.SetUp();
     }
 }

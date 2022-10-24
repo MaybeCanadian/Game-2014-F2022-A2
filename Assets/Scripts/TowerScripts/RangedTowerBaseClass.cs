@@ -35,7 +35,6 @@ public class RangedTowerBaseClass : TowerBaseClass
 
     protected override void Attack(GameObject enemy)
     {
-
         GameObject TempArrow = ProjectileManager.instance.GetBasicArrow();
         TempArrow.transform.position = transform.position;
         TempArrow.transform.right = enemy.transform.position - transform.position;

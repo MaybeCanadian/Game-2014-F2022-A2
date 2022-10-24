@@ -6985,6 +6985,9 @@ MonoBehaviour:
   activeArrows: 0
   StartingArrows: 50
   remainingArrows: 0
+  ActiveMagic: 0
+  StartingMagic: 50
+  RemainingMagic: 0
 --- !u!114 &846001045
 MonoBehaviour:
   m_ObjectHideFlags: 0

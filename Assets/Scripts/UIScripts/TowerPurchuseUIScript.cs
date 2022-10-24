@@ -9,7 +9,8 @@ using UnityEngine.UI;
  * Controls when the tower buy menu is visible
  * 
  * Version History -
- * 10/23/2022 - added script
+ * -10/23/2022 - added script
+ * -10/23/2022 - updated the tower button to have a prefab
  * 
  * Latest Revision -
  * 10/23/2022
@@ -23,6 +24,7 @@ public struct TowerButton
     public int TowerCost;
     public Sprite TowerSprite;
     public bool Active;
+    public GameObject TowerPrefab;
 }
 
 public class TowerPurchuseUIScript : MonoBehaviour
@@ -56,7 +58,9 @@ public class TowerPurchuseUIScript : MonoBehaviour
 
     public void TowerButtonPressed(int index)
     {
-        Debug.Log("Pressed Button " + index);
+        OnClosePress();
+        Time.timeScale = 0.0f;
+        TowerMakingScript.instance.SpawnTower(buttons[index].TowerPrefab);
     }
 
     private void Start() //starts with the ui hidden and the open button visible
@@ -95,7 +99,7 @@ public class TowerPurchuseUIScript : MonoBehaviour
     }
     public void OnOpenPress() //connects to the open button on the tower Buy UI
     {
-        Debug.Log("open");
+        //Debug.Log("open");
         Active = true;
         towerUIParent.SetActive(true);
         OpenButton.SetActive(false);
@@ -103,7 +107,7 @@ public class TowerPurchuseUIScript : MonoBehaviour
 
     public void OnClosePress() //connects to the close button on the tower Buy UI
     {
-        Debug.Log("close");
+        //Debug.Log("close");
         Active = false;
         towerUIParent.SetActive(false);
         OpenButton.SetActive(true);

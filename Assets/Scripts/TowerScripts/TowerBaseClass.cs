@@ -12,6 +12,7 @@ using UnityEngine;
  * 10/20/2022 - Created file
  * 10/21/2022 - Updated with some headers and Tooltips
  * 10/24/2022 - added sound effects for attacks
+ * 10/24/2022 - add interaction with stat tracker on start
  * 
  * Latest Revision -
  * 10/24/2022
@@ -75,6 +76,7 @@ public class TowerBaseClass : MonoBehaviour
         towerTarget = null;
         sr = GetComponent<SpriteRenderer>();
         audSrc = GetComponent<AudioSource>();
+        StatTracker.instance.AddTowerMade(1);
     }
 
     protected void ResetAttackCoolDown()

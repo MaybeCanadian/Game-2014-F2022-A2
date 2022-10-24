@@ -28,12 +28,14 @@ public class CurrencyManagerScript : MonoBehaviour
     {
         if (instance != null && instance != this)
         {
-            Destroy(this);
+            Destroy(gameObject);
         }
         else
         {
             instance = this;
         }
+
+        DontDestroyOnLoad(this);
     }
 
     public void StartNewLevel()
@@ -44,6 +46,7 @@ public class CurrencyManagerScript : MonoBehaviour
     public void AddGold(int value)
     {
         Gold += value;
+        StatTracker.instance.AddGoldGained(value);
     }
 
     public void AddXP(int value)
@@ -66,9 +69,15 @@ public class CurrencyManagerScript : MonoBehaviour
         if(Gold >= value)
         {
             Gold -= value;
+            StatTracker.instance.AddGoldSpent(value);
             return true;
         }
 
         return false;
+    }
+
+    public void DeleteThis()
+    {
+        Destroy(gameObject);
     }
 }

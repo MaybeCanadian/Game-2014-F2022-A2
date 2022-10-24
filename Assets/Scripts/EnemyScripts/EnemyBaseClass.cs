@@ -15,9 +15,10 @@ using UnityEngine;
  * 10/22/2022 - added the ability for enemies to take damage and display on the health bar
  * 10/23/2022 - Moving all health functions to the Health bar to reduce double code
  * 10/23/2022 - add some formatting to the variables and made a new one for when it reaches the exit. Reaching exit does damage
+ * 10/24/2022 - made this talk to stat tracker to track kills and damage
  * 
  * Latest Revision -
- * 10/23/2022
+ * 10/24/2022
  * ----------------------------------------
  */
 public class EnemyBaseClass : MonoBehaviour
@@ -92,6 +93,7 @@ public class EnemyBaseClass : MonoBehaviour
     public void TakeDamage(float value)
     {
         healthBar.TakeDamage(value);
+        StatTracker.instance.AddDamageDone(value);
         if(healthBar.GetIsDead())
         {
             Die();
@@ -100,6 +102,8 @@ public class EnemyBaseClass : MonoBehaviour
 
     private void Die()
     {
+        StatTracker.instance.AddEnemyKilled(1);
+        EnemySpawnerScript.instance.EnemyDied();
         CreateDrop();
         Destroy(gameObject);
     }

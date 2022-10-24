@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 /*---------------------------------
  * LevelHealthController.cs - Evan Coffey - 101267129
  * 
@@ -8,9 +9,10 @@ using UnityEngine;
  * 
  * Version History -
  * 10/23/2022 - created script
+ * 10/24/2022 - made running out of health send you to the game over screen
  * 
  * Latest Revision -
- * 10/23/2022
+ * 10/24/2022
  * --------------------------------
  */
 public class LevelHealthController : MonoBehaviour
@@ -20,21 +22,36 @@ public class LevelHealthController : MonoBehaviour
     [SerializeField]
     private int Health = 100;
 
+    [Header("Debug Bool")]
+    [SerializeField]
+    private bool SkipLevel = false;
+
     private void Awake()
     {
         if(instance != null && instance != this)
         {
-            Destroy(this);
+            Destroy(gameObject);
         }
         else
         {
             instance = this;
+        }
+
+        DontDestroyOnLoad(gameObject);
+    }
+
+    private void Update()
+    {
+        if(SkipLevel)
+        {
+            OutOfHealth();
         }
     }
 
     public void LoseHealth(int amount) //reduces health by the amount
     {
         Health -= amount;
+        StatTracker.instance.AddHealthLost(amount);
 
         if(Health <= 0)
         {
@@ -49,7 +66,7 @@ public class LevelHealthController : MonoBehaviour
 
     private void OutOfHealth()
     {
-        Debug.Log("GAME OVER");
+        SceneManager.LoadScene("GameLose");
     }
 
     public int GetHealth()
@@ -57,5 +74,8 @@ public class LevelHealthController : MonoBehaviour
         return Health;
     }
 
-
+    public void DeleteThis() 
+    {
+        Destroy(gameObject);
+    }
 }

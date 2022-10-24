@@ -66,6 +66,7 @@ public class PickUpScript : MonoBehaviour
 
     public void PickUpPickUp()
     {
+        StopAllCoroutines();
         switch(dropType)
         {
             case DropTypes.GoldBag:

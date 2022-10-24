@@ -12,9 +12,10 @@ using UnityEngine;
  * 10/22/2022 - set up spawning based on a spawn position, this is made so multiple spawn points can be set up.
  * 10/23/2022 - fixed issue where the parent wasn't being used, now enemies are attached to the parent
  * 10/23/2022 - moved the wave controlling to its own script
+ * 10/24/2022 - added number of enemy tracking
  * 
  * Latest Revision -
- * 10/23/2022
+ * 10/24/2022
  * ------------------------------------
  */
 public class EnemySpawnerScript : MonoBehaviour
@@ -24,6 +25,9 @@ public class EnemySpawnerScript : MonoBehaviour
 
     [SerializeField]
     Transform SpawnParent;
+
+    [SerializeField]
+    private int NumEnemies = 0;
 
     public static EnemySpawnerScript instance;
 
@@ -39,9 +43,25 @@ public class EnemySpawnerScript : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        NumEnemies = 0;
+    }
+
     public void SpawnEnemy(GameObject enemy, int LocationIndex) //spawns an enemy with a certain prefab at a certain spawn locations,
                                                                 //in first level only inbe spawn, this can change later on with later levels
     {
         GameObject temp = Instantiate(enemy, SpawnLocations[LocationIndex].position, SpawnLocations[LocationIndex].rotation, SpawnParent);
+        NumEnemies++;
     }
+
+    public void EnemyDied()
+    {
+        NumEnemies--;
+    }
+    public int GetNumEnmies()
+    {
+        return NumEnemies;
+    }
+    
 }

@@ -15,6 +15,7 @@ using UnityEngine;
  */
 public class PlayerPickUpScript : MonoBehaviour
 {
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if(collision.tag == "PickUps")

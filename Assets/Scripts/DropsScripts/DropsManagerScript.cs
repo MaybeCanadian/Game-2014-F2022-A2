@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Windows;
 /*----------------------------------
  * DropsManagerScript.cs - Evan Coffey - 101267129
  * 
@@ -84,11 +85,19 @@ public class DropsManagerScript : MonoBehaviour
         return tempDrop;    
     }
 
-    public void ReturnDrop(GameObject input)
+    private IEnumerator WaitForSoundToFinish(GameObject input)
     {
+        input.transform.position = new Vector3(0.0f, 0.0f, -10.0f);
+
+        yield return new WaitForSeconds(1.0f);
         input.SetActive(false);
         DropPool.Enqueue(input);
 
         remainingDrops = DropPool.Count;
+    }
+
+    public void ReturnDrop(GameObject input)
+    {
+        StartCoroutine("WaitForSoundToFinish", input);
     }
 }

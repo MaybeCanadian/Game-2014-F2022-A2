@@ -11,9 +11,10 @@ using UnityEngine;
  * Version History -
  * 10/20/2022 - Created file
  * 10/21/2022 - Updated with some headers and Tooltips
+ * 10/24/2022 - added sound effects for attacks
  * 
  * Latest Revision -
- * 10/21/2022
+ * 10/24/2022
  * ------------------------------------------------------------------
  */
 [System.Serializable]
@@ -63,12 +64,17 @@ public class TowerBaseClass : MonoBehaviour
     [SerializeField, ReadOnly(true)]
     protected float Damage = 10.0f;
 
+    [Header("Sound effects")]
+    [SerializeField]
+    private AudioSource audSrc;
+
     private void Start()
     {
         AttackCoolDown = false;
         TowerHasTarget = false;
         towerTarget = null;
         sr = GetComponent<SpriteRenderer>();
+        audSrc = GetComponent<AudioSource>();
     }
 
     protected void ResetAttackCoolDown()
@@ -291,6 +297,12 @@ public class TowerBaseClass : MonoBehaviour
         sr.sprite = directionSprites[3];
 
 
+    }
+
+    protected void PlayAttackSound()
+    {
+        if(audSrc)
+            audSrc.Play();
     }
 
     protected virtual void Attack(GameObject target) { }

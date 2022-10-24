@@ -11,9 +11,10 @@ using UnityEngine;
  * 10/22/2022 - adjusted the script to use a movespeed
  * 10/22/2022 - added more values for the arrow
  * 10/23/2022 - Adjusted the arrow to know if it should be removed to not damage extra enemies by accident
+ * 10/24/2022 - made the attack function call the play sound effect function
  * 
  * Latest Revision -
- * 10/23/2022
+ * 10/24/2022
  * ------------------------------------------
  */
 public class ArrowBehaviorScript : MonoBehaviour

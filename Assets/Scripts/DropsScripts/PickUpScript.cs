@@ -10,9 +10,10 @@ using UnityEngine;
  * Version History -
  * 10/22/2022 - created script
  * 10/22/2022 - added function to remove the pickUp
+ * 10/24/2022 - added sound effects for pickUp
  * 
  * Latest Revision -
- * 10/22/2022
+ * 10/24/2022
  * --------------------------------------
  */
 public class PickUpScript : MonoBehaviour
@@ -25,8 +26,11 @@ public class PickUpScript : MonoBehaviour
     Vector3 TargetPosition = new Vector3(0, 0, 0);
     public float MoveSpeed = 2.0f;
 
+    private AudioSource audSRC;
+
     private void Start()
     {
+        audSRC = GetComponent<AudioSource>();
         StartCoroutine("MoveToTargerPosition");
     }
 
@@ -60,14 +64,6 @@ public class PickUpScript : MonoBehaviour
         PickUpValue = value;
     }
 
-    //public void AttractToPosition(Vector3 Position, float speed)
-    //{
-    //    Vector3 moveDirection = Position - transform.position;
-    //    moveDirection.Normalize();
-
-    //    rb.MovePosition(transform.position + moveDirection * speed * Time.deltaTime);
-    //}
-
     public void PickUpPickUp()
     {
         switch(dropType)
@@ -76,6 +72,7 @@ public class PickUpScript : MonoBehaviour
                 CurrencyManagerScript.instance.AddGold(((int)PickUpValue));
                 break;
         }
+        audSRC.Play();
         DropsManagerScript.instance.ReturnDrop(gameObject);
     }
 

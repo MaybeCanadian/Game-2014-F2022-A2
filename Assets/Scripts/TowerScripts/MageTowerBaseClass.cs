@@ -32,6 +32,8 @@ public class MageTowerBaseClass : TowerBaseClass
 
     protected override void Attack(GameObject enemy)
     {
+        PlayAttackSound();
+
         GameObject TempMagic = ProjectileManager.instance.GetMagicShot();
         TempMagic.transform.position = transform.position;
         TempMagic.transform.right = enemy.transform.position - transform.position;

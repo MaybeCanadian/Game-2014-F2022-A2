@@ -11,9 +11,10 @@ using UnityEngine;
  * 10/21/2022 - Added in some basic atack patterns, for now will output a debug message
  * 10/22/2022 - Added variables to help control the type of arrow the tower shoots
  * 10/23/2022 - adjusted the attack function to call the new setup function of the arrow
+ * 10/24/2022 - made the attack function call the sound effect function
  * 
  * Latest Revision -
- * 10/23/2022
+ * 10/24/2022
  * -----------------------------
  */
 public class RangedTowerBaseClass : TowerBaseClass
@@ -35,6 +36,8 @@ public class RangedTowerBaseClass : TowerBaseClass
 
     protected override void Attack(GameObject enemy)
     {
+        PlayAttackSound();
+
         GameObject TempArrow = ProjectileManager.instance.GetBasicArrow();
         TempArrow.transform.position = transform.position;
         TempArrow.transform.right = enemy.transform.position - transform.position;

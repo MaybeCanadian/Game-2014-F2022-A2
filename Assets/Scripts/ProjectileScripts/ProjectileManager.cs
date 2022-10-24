@@ -9,9 +9,10 @@ using UnityEngine;
  * 
  * Version History -
  * 10/22/2022 - script created
+ * 10/24/2022 - added support for a magic type of projectile
  * 
  * Latest Revision -
- * 10/22/2022
+ * 10/24/2022
  * ----------------------------------
  */
 public class ProjectileManager : MonoBehaviour
